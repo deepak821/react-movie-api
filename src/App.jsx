@@ -6,13 +6,15 @@ import AppContainer from "./Container/AppContainer";
 import "./style.css";
 const App = () => {
   return (
-    <AppContainer>
-      <Switch>
-        {/* <Heading/> */}
-        <Route path="/" exact component={Home}></Route>
-        <Route path="/:name" component={Search}></Route>
-      </Switch>
-    </AppContainer>
+    <div>
+      <AppContainer>
+        <Switch>
+          {/* <Heading/> */}
+          <Route path="/" exact component={Home} />
+          <Route path="/:name" component={Search} />
+        </Switch>
+      </AppContainer>
+    </div>
   );
 };
 

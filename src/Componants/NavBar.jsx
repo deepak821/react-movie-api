@@ -8,9 +8,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
-import { Box } from "@material-ui/core";
-import { Redirect } from "react-router-dom";
-import { Link } from "react-router";
+import { Box, Button } from "@material-ui/core";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -20,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     color: "black",
     display: "none",
+    fontSize: 24,
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
@@ -74,7 +74,6 @@ export default function SearchAppBar() {
   const [dark, setDark] = useState(false);
   const [bg, setbg] = useState("#FFFAFA");
   const [name, setname] = useState("");
-  const [serach, setSearch] = useState(false);
   const handleChange = (event) => {
     setDark(event.target.checked);
     if (event.target.checked === true) {
@@ -91,51 +90,61 @@ export default function SearchAppBar() {
   const inputEvent = (event) => {
     setname(event.target.value);
   };
-  const onSearch = () => {
-    console.log("clicked");
-    setSearch(true);
-  };
-  if (serach) return <Redirect to={"/" + name} />;
-  else
-    return (
-      <div className={classes.root}>
-        <AppBar style={{ backgroundColor: bg }} position="static">
-          <Toolbar>
-            <Typography className={classes.title} variant="h6" noWrap>
-              <Link to="/"> OMDB</Link>
-            </Typography>
-            <div className={classes.search}>
-              <form noValidate autoComplete="off" onSubmit={onSearch}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
-                <InputBase
-                  placeholder="Search…"
-                  onChange={inputEvent}
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                  inputProps={{ "aria-label": "search" }}
-                />
-              </form>
-            </div>
-            <Box p={1.5} />
-            <FormGroup>
-              <FormControlLabel
-                className={classes.formControl}
-                control={
-                  <Switch
-                    checked={dark}
-                    onChange={handleChange}
-                    aria-label="Dark switch"
-                  />
-                }
-                label={"Dark Mode"}
+
+  return (
+    <div className={classes.root}>
+      <AppBar style={{ backgroundColor: bg }} position="static">
+        <Toolbar>
+          <Typography className={classes.title} variant="h6" noWrap>
+            <Button
+              className={classes.title}
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.href = `/`;
+              }}
+            >
+              OMDB
+            </Button>
+          </Typography>
+          <div className={classes.search}>
+            <form
+              noValidate
+              autoComplete="off"
+              onSubmit={(e) => {
+                e.preventDefault();
+                window.location.href = `/${name}`;
+              }}
+            >
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                onChange={inputEvent}
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ "aria-label": "search" }}
               />
-            </FormGroup>
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
+            </form>
+          </div>
+          <Box p={1.5} />
+          <FormGroup>
+            <FormControlLabel
+              className={classes.formControl}
+              control={
+                <Switch
+                  checked={dark}
+                  onChange={handleChange}
+                  aria-label="Dark switch"
+                />
+              }
+              label={"Dark Mode"}
+            />
+          </FormGroup>
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 }
