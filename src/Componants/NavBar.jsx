@@ -1,34 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import { fade, makeStyles } from "@material-ui/core/styles";
-import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
-
+import Switch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormGroup from "@material-ui/core/FormGroup";
+import { Box } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: "#005469",
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
+
   title: {
     flexGrow: 1,
+    color: "black",
     display: "none",
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
   },
   search: {
+    color: "black",
     position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    backgroundColor: fade(theme.palette.common.black, 0.15),
     "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+      backgroundColor: fade(theme.palette.common.black, 0.25),
     },
     marginLeft: 0,
     width: "100%",
@@ -62,25 +62,34 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  formControl: {
+    color: "black",
+  },
 }));
 
 export default function SearchAppBar() {
   const classes = useStyles();
+  const [dark, setDark] = useState(false);
+  const [bg, setbg] = useState("#FFFAFA");
+  const handleChange = (event) => {
+    setDark(event.target.checked);
+    if (event.target.checked === true) {
+      setbg("#fff");
+    } else {
+      setbg("#FFFAFA");
+    }
 
+    document.documentElement.classList.toggle("dark-mode");
+    document.querySelectorAll(".inverted").forEach((result) => {
+      result.classList.toggle("invert");
+    });
+  };
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar style={{ backgroundColor: bg }} position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+            OMDB
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -95,6 +104,20 @@ export default function SearchAppBar() {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
+          <Box p={1.5} />
+          <FormGroup>
+            <FormControlLabel
+              className={classes.formControl}
+              control={
+                <Switch
+                  checked={dark}
+                  onChange={handleChange}
+                  aria-label="Dark switch"
+                />
+              }
+              label={"Dark Mode"}
+            />
+          </FormGroup>
         </Toolbar>
       </AppBar>
     </div>
