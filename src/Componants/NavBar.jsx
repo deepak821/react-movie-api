@@ -9,6 +9,8 @@ import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
 import { Box } from "@material-ui/core";
+import { Redirect } from "react-router-dom";
+import { Link } from "react-router";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -71,6 +73,8 @@ export default function SearchAppBar() {
   const classes = useStyles();
   const [dark, setDark] = useState(false);
   const [bg, setbg] = useState("#FFFAFA");
+  const [name, setname] = useState("");
+  const [serach, setSearch] = useState(false);
   const handleChange = (event) => {
     setDark(event.target.checked);
     if (event.target.checked === true) {
@@ -84,42 +88,54 @@ export default function SearchAppBar() {
       result.classList.toggle("invert");
     });
   };
-  return (
-    <div className={classes.root}>
-      <AppBar style={{ backgroundColor: bg }} position="static">
-        <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
-            OMDB
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
-          <Box p={1.5} />
-          <FormGroup>
-            <FormControlLabel
-              className={classes.formControl}
-              control={
-                <Switch
-                  checked={dark}
-                  onChange={handleChange}
-                  aria-label="Dark switch"
+  const inputEvent = (event) => {
+    setname(event.target.value);
+  };
+  const onSearch = () => {
+    console.log("clicked");
+    setSearch(true);
+  };
+  if (serach) return <Redirect to={"/" + name} />;
+  else
+    return (
+      <div className={classes.root}>
+        <AppBar style={{ backgroundColor: bg }} position="static">
+          <Toolbar>
+            <Typography className={classes.title} variant="h6" noWrap>
+              <Link to="/"> OMDB</Link>
+            </Typography>
+            <div className={classes.search}>
+              <form noValidate autoComplete="off" onSubmit={onSearch}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search…"
+                  onChange={inputEvent}
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ "aria-label": "search" }}
                 />
-              }
-              label={"Dark Mode"}
-            />
-          </FormGroup>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+              </form>
+            </div>
+            <Box p={1.5} />
+            <FormGroup>
+              <FormControlLabel
+                className={classes.formControl}
+                control={
+                  <Switch
+                    checked={dark}
+                    onChange={handleChange}
+                    aria-label="Dark switch"
+                  />
+                }
+                label={"Dark Mode"}
+              />
+            </FormGroup>
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
 }
