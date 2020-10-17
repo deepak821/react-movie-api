@@ -1,17 +1,18 @@
 import React from "react";
 // import Heading from "./Heading";
-import Home from "./Home";
-import Search from "./Search";
-import NavBar from "./NavBar";
-import { BrowserRouter, Route } from "react-router-dom";
+import Home from "./Componants/Home";
+import Search from "./Componants/Search";
+import NavBar from "./Componants/NavBar";
+import { Route, Switch } from "react-router-dom";
 const App = () => {
   return (
-    <BrowserRouter>
+    <Switch>
       {/* <Heading/> */}
       <NavBar />
       <Route path="/" exact component={Home}></Route>
+
       <Route path="/:name" component={Search}></Route>
-    </BrowserRouter>
+    </Switch>
   );
 };
 
