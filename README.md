@@ -4,7 +4,7 @@
 
 > \$ npm install
 
-2.for launching the website run below code
+2.for launching the website run the below code.
 
 > \$ npm start
 
